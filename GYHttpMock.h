@@ -20,7 +20,6 @@
 @property (nonatomic, strong) NSMutableArray *stubbedRequests;
 @property (nonatomic, strong) NSMutableArray *hooks;
 @property (nonatomic, assign, getter = isStarted) BOOL started;
-@property (nonatomic, copy) void (^logBlock)(NSString *logStr);
 
 + (GYHttpMock *)sharedInstance;
 
@@ -29,7 +28,4 @@
 
 - (GYMockResponse *)responseForRequest:(id<GYHTTPRequest>)request;
 - (void)addMockRequest:(GYMockRequest *)request;
-
-- (void)log:(NSString *)fmt, ...;
-
 @end

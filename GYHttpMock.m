@@ -93,6 +93,7 @@ static GYHttpMock *sharedInstance = nil;
         for(GYMockRequest *someStubbedRequest in _stubbedRequests) {
             if ([someStubbedRequest matchesRequest:request]) {
                 someStubbedRequest.response.isUpdatePartResponseBody = someStubbedRequest.isUpdatePartResponseBody;
+                someStubbedRequest.response.isUseNetJsonResponse = someStubbedRequest.isUseNetJsonResponse;
                 return someStubbedRequest.response;
             }
         }
@@ -117,19 +118,4 @@ static GYHttpMock *sharedInstance = nil;
         }
     }
 }
-
-- (void)log:(NSString *)fmt, ... {
-    if (!fmt || !self.logBlock) {
-        return;
-    }
-    
-    NSString *msg = nil;
-    va_list args;
-    va_start(args, fmt);
-    msg = [[NSString alloc] initWithFormat:fmt arguments:args];
-    va_end(args);
-    
-    self.logBlock(msg);
-}
-
 @end

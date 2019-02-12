@@ -46,6 +46,13 @@
     };
 }
 
+- (isUseNetJsonResponse)isUseNetJsonResponse {
+    return ^(BOOL isUse) {
+        self.request.isUseNetJsonResponse = isUse;
+        return self;
+    };
+}
+
 - (AndBodyMethod)withBody {
     return ^(id body) {
         self.request.body = [GYMatcher GYMatcherWithObject:body];

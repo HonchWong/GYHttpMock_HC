@@ -21,6 +21,8 @@
 
 @property (nonatomic, assign) BOOL shouldNotMockAgain;
 
+@property (nonatomic, assign) BOOL isUseNetJsonResponse;
+
 - (id)initWithError:(NSError *)error;
 - (id)initWithStatusCode:(NSInteger)statusCode;
 - (id)initDefaultResponse;

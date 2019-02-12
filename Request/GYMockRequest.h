@@ -26,6 +26,7 @@
 @property (nonatomic, strong) NSDictionary *headers;
 @property (nonatomic, strong, readwrite) GYMatcher *body;
 @property (nonatomic, assign, readwrite) BOOL isUpdatePartResponseBody;
+@property (nonatomic, assign, readwrite) BOOL isUseNetJsonResponse;
 
 @property (nonatomic, strong) GYMockResponse *response;
 

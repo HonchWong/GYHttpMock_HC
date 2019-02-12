@@ -16,6 +16,7 @@
 typedef GYMockRequestDSL *(^WithHeaderMethod)(NSString *, NSString *);
 typedef GYMockRequestDSL *(^WithHeadersMethod)(NSDictionary *);
 typedef GYMockRequestDSL *(^isUpdatePartResponseBody)(BOOL);
+typedef GYMockRequestDSL *(^isUseNetJsonResponse)(BOOL);
 typedef GYMockRequestDSL *(^AndBodyMethod)(id);
 typedef GYMockResponseDSL *(^AndReturnMethod)(NSInteger);
 typedef void (^AndFailWithErrorMethod)(NSError *error);
@@ -28,6 +29,7 @@ typedef void (^AndFailWithErrorMethod)(NSError *error);
 @property (nonatomic, strong, readonly) WithHeaderMethod withHeader;
 @property (nonatomic, strong, readonly) WithHeadersMethod withHeaders;
 @property (nonatomic, strong, readonly) isUpdatePartResponseBody isUpdatePartResponseBody;
+@property (nonatomic, strong, readonly) isUseNetJsonResponse isUseNetJsonResponse;
 @property (nonatomic, strong, readonly) AndBodyMethod withBody;
 @property (nonatomic, strong, readonly) AndReturnMethod andReturn;
 @property (nonatomic, strong, readonly) AndFailWithErrorMethod andFailWithError;

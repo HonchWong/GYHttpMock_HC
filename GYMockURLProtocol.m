@@ -9,7 +9,6 @@
 #import "GYMockURLProtocol.h"
 #import "GYHttpMock.h"
 #import "GYMockResponse.h"
-#import "GYHttpMock.h"
 
 @interface NSHTTPURLResponse(UndocumentedInitializer)
 - (id)initWithURL:(NSURL*)URL statusCode:(NSInteger)statusCode headerFields:(NSDictionary*)headerFields requestTime:(double)requestTime;
@@ -17,8 +16,6 @@
 
 @implementation GYMockURLProtocol
 + (BOOL)canInitWithRequest:(NSURLRequest *)request {
-    [[GYHttpMock sharedInstance] log:@"mock request: %@", request];
-    
     GYMockResponse* stubbedResponse = [[GYHttpMock sharedInstance] responseForRequest:(id<GYHTTPRequest>)request];
     if (stubbedResponse && !stubbedResponse.shouldNotMockAgain) {
         return YES;
@@ -42,6 +39,32 @@
     
     if (stubbedResponse.shouldFail) {
         [client URLProtocol:self didFailWithError:stubbedResponse.error];
+    }
+    else if (stubbedResponse.isUseNetJsonResponse) {
+        if (stubbedResponse.isUseNetJsonResponse && stubbedResponse.body) {
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:stubbedResponse.body options:NSJSONReadingMutableContainers error:nil];
+            NSString *replaceURL = [dict objectForKey:@"replaceURL"];
+            if (replaceURL.length) {
+                request = [NSURLRequest requestWithURL:[NSURL URLWithString:replaceURL]];
+            }
+        }
+        
+        stubbedResponse.shouldNotMockAgain = YES;
+        NSOperationQueue *queue = [[NSOperationQueue alloc]init];
+        [NSURLConnection sendAsynchronousRequest:request
+                                           queue:queue
+                               completionHandler:^(NSURLResponse *response, NSData *data, NSError *error){
+                                   if (error) {
+                                       NSLog(@"Httperror:%@%@", error.localizedDescription,@(error.code));
+                                       [client URLProtocol:self didFailWithError:[NSError errorWithDomain:NSCocoaErrorDomain code:NSUserCancelledError userInfo:nil]];
+                                   }else{
+                                       [client URLProtocol:self didReceiveResponse:response
+                                        cacheStoragePolicy:NSURLCacheStorageNotAllowed];
+                                       [client URLProtocol:self didLoadData:data];
+                                       [client URLProtocolDidFinishLoading:self];
+                                   }
+                                   stubbedResponse.shouldNotMockAgain = NO;
+                               }];
     }
     else if (stubbedResponse.isUpdatePartResponseBody) {
         stubbedResponse.shouldNotMockAgain = YES;
@@ -112,7 +135,7 @@
 - (void)addEntriesFromDictionary:(NSDictionary *)dict to:(NSMutableDictionary *)targetDict
 {
     for (NSString *key in dict) {
-        if (!targetDict[key] || [dict[key] isKindOfClass:[NSString class]] || [dict[key] isKindOfClass:[NSNumber class]]) {
+        if (!targetDict[key] || [dict[key] isKindOfClass:[NSString class]]) {
             [targetDict addEntriesFromDictionary:dict];
         } else if ([dict[key] isKindOfClass:[NSArray class]]) {
             NSMutableArray *mutableArray = [NSMutableArray array];
