@@ -1,3 +1,7 @@
+# GYHttpMock_HC
+增加了Mock功能，替换request 的URL
+
+
 # GYHttpMock
 Library for replacing part/all HTTP response based on Nocilla.
 
