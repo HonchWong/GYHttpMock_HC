@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "GYHttpMock_HC"
-  s.version          = "1.0.0"
+  s.version          = "1.0.1"
   s.summary          = "Library for replace part/all HTTP response based Nocilla."
 
   s.homepage         = "https://github.com/HonchWong/GYHttpMock_HC"
