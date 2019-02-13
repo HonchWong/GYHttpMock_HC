@@ -1,8 +1,25 @@
 # GYHttpMock_HC
-本仓库fork了GYHttpMock，增加了Mock功能：支持替换request 的URL
 
-可通过CocoaPods 引用 'GYHttpMock_HC'
+## 功能
+* 本仓库fork了GYHttpMock，增加了Mock功能：支持替换request 的URL
 
+## 使用 CocoaPods 引入 
+
+修改podfile文件
+
+```ruby
+pod 'GYHttpMock_HC'
+```
+
+## Usage
+
+#### 替换请求的url，使用另一个url返回的response来mock数据
+
+```objc
+mockRequest(requestType, ruleInfo.urlDetail).isUseNetJsonResponse(YES).andReturn(200).withBody(@"{\"replaceURL\":\jsonPath\"}");
+```
+
+# 以下为GYHttpMock 的reame
 
 # GYHttpMock
 Library for replacing part/all HTTP response based on Nocilla.
