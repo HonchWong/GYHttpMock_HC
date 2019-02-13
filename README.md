@@ -1,7 +1,9 @@
 # GYHttpMock_HC
 
 ## 功能
-* 本仓库fork了GYHttpMock，增加了Mock功能：支持替换request 的URL
+* 本仓库fork了GYHttpMock，增加了Mock功能：支持替换request 的URL，mock流程可以看下面的时序图，方式2、3都是GYHttpMock就有的功能，方式4是GYHttpMock_HC新增的
+
+![时序图](http://m.qpic.cn/psb?/V10JaO4w40EHz4/Rr2Xq1p5g3ZN82Bh*0sezyTSpNQpSFjI6CJLhq5cCBw!/b/dC4BAAAAAAAA&bo=YAIeAwAAAAADB10!&rf=viewer_4)
 
 ## 使用 CocoaPods 引入 
 
